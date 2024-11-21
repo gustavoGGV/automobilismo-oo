@@ -1,16 +1,27 @@
 <?php
 
 require_once("IUsarCarro.php");
+require_once("Carro.php");
 
-class CarroSeguranca implements IUsarCarro {
+class CarroSeguranca extends Carro implements IUsarCarro {
 
-    private string $fabricante;
-    private string $modelo;
     private string $categoria;
+
+    public function __toString() {
+
+        return "Modelo: " . $this->modelo . "\nFabricante: " . $this->fabricante . "\nMotor: " . $this->motor. "\nNome da equipe: " . $this->equipe->getNome() . "\nPiloto: " . $this->equipe->getPiloto() . "\nCategoria: " . $this->categoria . "\n\n";
+
+    }
 
     public function ligarCarro() {
 
-        return "O carro de segurança ligou, junto da sua sirene!";
+        return "\nO carro de segurança da categoria " . $this->categoria . " ligou, junto da sua sirene.\n";
+
+    }
+
+    public function pilotarCarro($circuitos, $opcao_circuito) {
+
+        return "\nPilotando... circuito de " . $circuitos[$opcao_circuito]->getNomeComum() . " em segurança!\n";
 
     }
 
