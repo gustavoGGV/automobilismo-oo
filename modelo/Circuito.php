@@ -7,6 +7,12 @@ class Circuito {
     private string $pais;
     private float $extensao;
 
+    public function __toString() {
+
+        return $this->nomeComum . "\nNome oficial: " . $this->nome . "\nPaís: " . $this->pais . "\nExtensão: " . $this->extensao . "km\n\n";
+
+    }
+
     public function __construct($nomeComum, $nome, $pais, $extensao) {
 
         $this->nomeComum=$nomeComum;
