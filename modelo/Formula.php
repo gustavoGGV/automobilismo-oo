@@ -28,7 +28,7 @@ class Formula extends Carro implements IUsarCarro {
 
         } else if($circuitos[$opcao_circuito]->getNomeComum()=="Daytona") {
 
-            return "\nSeu fórmula de ano " . $this->ano . " ferveu muito por conta do RPM alto por muito tempo, motor perdido (e o carro inteiro)! Carro deletado!\n";
+            return "\nSeu fórmula de ano " . $this->ano . " ferveu muito por conta do RPM alto por muito tempo, motor perdido. Mas nada que o dinheiro não resolva!\n";
 
         } else {
 
