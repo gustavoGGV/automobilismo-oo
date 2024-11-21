@@ -1,7 +1,7 @@
 <?php
 
 require_once("modelo/CarroSeguranca.php");
-require_once("modelo/CarroCorrida.php");
+require_once("modelo/Carro.php");
 require_once("modelo/Equipe.php");
 require_once("modelo/Formula.php");
 require_once("modelo/Nascar.php");
@@ -54,46 +54,37 @@ do {
                 if($opcao_carro==1) {
 
                     $carro=new CarroSeguranca();
-                    $carro->setFabricante(readline("Digite a fabricante do carro: "));
-                    $carro->setModelo(readline("Digite o modelo do carro: "));
-                    $carro->setCategoria(readline("Digite a categoria em que o carro atua: "));
-                    array_push($carros, $carro);
 
-                    echo "\nCarro cadastrado!\n\n";
-                    $opcao_carro=0;
+                    $equipe=new Equipe();
+                    $equipe->setNome(" - ");
+                    $equipe->setPiloto(readline("Digite o nome do piloto: "));
                     
-                    sleep(1);
+                    $carro->setEquipe($equipe);
+
+                    $carro->setCategoria(readline("Digite a categoria em que o carro atua: "));
 
                 } else if($opcao_carro==2) {
 
+                    $carro=new Formula();
+
                     $equipe=new Equipe();
                     $equipe->setNome(readline("Digite o nome da equipe: "));
                     $equipe->setPiloto(readline("Digite o nome do piloto: "));
 
-                    $carro=new Formula();
-                    $carro->setFabricante(readline("Digite a fabricante do carro: "));
-                    $carro->setModelo(readline("Digite o modelo do carro: "));
-                    $carro->setMotor(readline("Digite o motor do carro: "));
-                    $carro->setAnoEpoca(readline("Digite o ano do seu carro: "));
                     $carro->setEquipe($equipe);
-                    
-                    array_push($carros, $carro);
 
-                    echo "\nCarro cadastrado!\n\n";
-                    $opcao_carro=0;
-                    
-                    sleep(1);
+                    $carro->setAno(readline("Digite o ano do seu carro: "));
 
                 } else if($opcao_carro==3) {
 
+                    $carro=new Nascar();
+
                     $equipe=new Equipe();
                     $equipe->setNome(readline("Digite o nome da equipe: "));
                     $equipe->setPiloto(readline("Digite o nome do piloto: "));
 
-                    $carro=new Nascar();
-                    $carro->setFabricante(readline("Digite a fabricante do carro: "));
-                    $carro->setModelo(readline("Digite o modelo do carro: "));
-                    $carro->setMotor(readline("Digite o motor do carro: "));
+                    $carro->setEquipe($equipe);
+
                     $opcao_setup=readline("Qual o setup do seu carro? (1 - Oval; 2 - Misto): ");
                     if($opcao_setup==1)
                         $carro->setSetup("Oval");
@@ -101,25 +92,17 @@ do {
                         $carro->setSetup("Misto");
                     else
                         $carro->setSetup("Indefinido");
-                    $carro->setEquipe($equipe);
-                    
-                    array_push($carros, $carro);
-
-                    echo "\nCarro cadastrado!\n\n";
-                    $opcao_carro=0;
-                    
-                    sleep(1);
 
                 } else if($opcao_carro==4) {
+
+                    $carro=new Hypercar();
 
                     $equipe=new Equipe();
                     $equipe->setNome(readline("Digite o nome da equipe: "));
                     $equipe->setPiloto(readline("Digite o nome do piloto: "));
 
-                    $carro=new Hypercar();
-                    $carro->setFabricante(readline("Digite a fabricante do carro: "));
-                    $carro->setModelo(readline("Digite o modelo do carro: "));
-                    $carro->setMotor(readline("Digite o motor do carro: "));
+                    $carro->setEquipe($equipe);
+
                     $opcao_bop=readline("Como está o balanço de performance do seu carro? (1 - Ruim; 2 - Bom): ");
                     if($opcao_bop==1)
                         $carro->setBop("Ruim");
@@ -127,16 +110,20 @@ do {
                         $carro->setBop("Bom");
                     else
                         $carro->setBop("Indefinido");
-                    $carro->setEquipe($equipe);
-                    
-                    array_push($carros, $carro);
-
-                    echo "\nCarro cadastrado!\n\n";
-                    $opcao_carro=0;
-                    
-                    sleep(1);
 
                 }
+
+                $carro->setFabricante(readline("Digite a fabricante do carro: "));
+                $carro->setModelo(readline("Digite o modelo do carro: "));
+                $carro->setMotor(readline("Digite o motor do carro: "));
+
+                array_push($carros, $carro);
+
+                echo "\nCarro cadastrado!\n\n";
+                $opcao_carro=0;
+                
+                sleep(1);
+
 
             } while($opcao_carro!=0);
             break;
@@ -145,25 +132,12 @@ do {
             $i=1;
             foreach($carros as $c) {
 
-                if($c instanceof Formula) {
+                echo "\n\n" . $i . " -\n";
 
-                    echo "\n\n" . $i . " -\nModelo: " . $c->getModelo() . "\nFabricante: " . $c->getFabricante() . "\nMotor: " . $c->getMotor() . "\nNome da equipe: " . $c->getEquipe()->getNome() . "\nPiloto: " . $c->getEquipe()->getPiloto() . "\nAno: " . $c->getAnoEpoca() . "\n\n";
-
-                } else if($c instanceof Nascar) {
-
-                    echo "\n\n" . $i . " -\nModelo: " . $c->getModelo() . "\nFabricante: " . $c->getFabricante() . "\nMotor: " . $c->getMotor() . "\nNome da equipe: " . $c->getEquipe()->getNome() . "\nPiloto: " . $c->getEquipe()->getPiloto() . "\nSetup: " . $c->getSetup() . "\n\n";
-
-                } else if($c instanceof Hypercar) {
-
-                    echo "\n\n" . $i . " -\nModelo: " . $c->getModelo() . "\nFabricante: " . $c->getFabricante() . "\nMotor: " . $c->getMotor() . "\nNome da equipe: " . $c->getEquipe()->getNome() . "\nPiloto: " . $c->getEquipe()->getPiloto() . "\nBoP: " . $c->getBop() . "\n\n";
-
-                } else{
-
-                    echo "\n\n" . $i . " -\nModelo: " . $c->getModelo() . "\nFabricante: " . $c->getFabricante() . "\nCategoria: " . $c->getCategoria() . "\n\n";
-
-                }
+                echo $c;
 
                 $i++;
+
             }
             break;
 
@@ -171,25 +145,12 @@ do {
             $i=1;
             foreach($carros as $c) {
 
-                if($c instanceof Formula) {
+                echo "\n\n" . $i . " -\n";
 
-                    echo "\n\n" . $i . " -\nModelo: " . $c->getModelo() . "\nFabricante: " . $c->getFabricante() . "\nMotor: " . $c->getMotor() . "\nNome da equipe: " . $c->getEquipe()->getNome() . "\nPiloto: " . $c->getEquipe()->getPiloto() . "\nAno: " . $c->getAnoEpoca() . "\n\n";
-
-                } else if($c instanceof Nascar) {
-
-                    echo "\n\n" . $i . " -\nModelo: " . $c->getModelo() . "\nFabricante: " . $c->getFabricante() . "\nMotor: " . $c->getMotor() . "\nNome da equipe: " . $c->getEquipe()->getNome() . "\nPiloto: " . $c->getEquipe()->getPiloto() . "\nSetup: " . $c->getSetup() . "\n\n";
-
-                } else if($c instanceof Hypercar) {
-
-                    echo "\n\n" . $i . " -\nModelo: " . $c->getModelo() . "\nFabricante: " . $c->getFabricante() . "\nMotor: " . $c->getMotor() . "\nNome da equipe: " . $c->getEquipe()->getNome() . "\nPiloto: " . $c->getEquipe()->getPiloto() . "\nBoP: " . $c->getBop() . "\n\n";
-
-                } else{
-
-                    echo "\n\n" . $i . " -\nModelo: " . $c->getModelo() . "\nFabricante: " . $c->getFabricante() . "\nCategoria: " . $c->getCategoria() . "\n\n";
-
-                }
+                echo $c;
 
                 $i++;
+                
             }
 
             $opcao_deletar=readline("Que carro você deseja deletar?: ");
@@ -204,25 +165,12 @@ do {
             $i=1;
             foreach($carros as $c) {
 
-                if($c instanceof Formula) {
+                echo "\n\n" . $i . " -\n";
 
-                    echo "\n\n" . $i . " -\nModelo: " . $c->getModelo() . "\nFabricante: " . $c->getFabricante() . "\nMotor: " . $c->getMotor() . "\nNome da equipe: " . $c->getEquipe()->getNome() . "\nPiloto: " . $c->getEquipe()->getPiloto() . "\nAno: " . $c->getAnoEpoca() . "\n\n";
-
-                } else if($c instanceof Nascar) {
-
-                    echo "\n\n" . $i . " -\nModelo: " . $c->getModelo() . "\nFabricante: " . $c->getFabricante() . "\nMotor: " . $c->getMotor() . "\nNome da equipe: " . $c->getEquipe()->getNome() . "\nPiloto: " . $c->getEquipe()->getPiloto() . "\nSetup: " . $c->getSetup() . "\n\n";
-
-                } else if($c instanceof Hypercar) {
-
-                    echo "\n\n" . $i . " -\nModelo: " . $c->getModelo() . "\nFabricante: " . $c->getFabricante() . "\nMotor: " . $c->getMotor() . "\nNome da equipe: " . $c->getEquipe()->getNome() . "\nPiloto: " . $c->getEquipe()->getPiloto() . "\nBoP: " . $c->getBop() . "\n\n";
-
-                } else{
-
-                    echo "\n\n" . $i . " -\nModelo: " . $c->getModelo() . "\nFabricante: " . $c->getFabricante() . "\nCategoria: " . $c->getCategoria() . "\n\n";
-
-                }
+                echo $c;
 
                 $i++;
+                
             }
 
             $opcao_pilotar=readline("Que carro você deseja pilotar?: ");
@@ -231,7 +179,9 @@ do {
             $i=1;
             foreach($circuitos as $c) {
 
-                echo "\n\n" . $i . " -\n" . $c->getNomeComum() . "\nNome oficial: " . $c->getNome() . "\nPaís: " . $c->getPais() . "\nExtensão: " . $c->getExtensao() . "km\n\n";
+                echo "\n\n" . $i . " -\n";
+
+                echo $c;
 
                 $i++;
 
@@ -240,165 +190,11 @@ do {
             $opcao_circuito=readline("Em que circuito você deseja pilotar?: ");
             $opcao_circuito--;
 
-            if($carros[$opcao_pilotar] instanceof Formula) {
+            echo $carros[$opcao_pilotar]->ligarCarro();
+            sleep(2);
 
-                if($circuitos[$opcao_circuito]==$interlagos) {
-
-                    echo $carros[$opcao_pilotar]->ligarCarro();
-                    sleep(2);
-
-                    echo "\nSeu fórmula de ano " . $carros[$opcao_pilotar]->getAnoEpoca() . " fez um tempo extremamente rápido!\n\n";
-                    sleep(2);
-
-                } else if($circuitos[$opcao_circuito]==$daytona) {
-
-                    echo $carros[$opcao_pilotar]->ligarCarro();
-                    sleep(2);
-
-                    echo "\nSeu fórmula de ano " . $carros[$opcao_pilotar]->getAnoEpoca() . " ferveu muito por conta do RPM alto por muito tempo, motor perdido (e o carro inteiro)!\n\n";
-                    sleep(2);
-
-                    array_splice($carros, $opcao_pilotar, 1);
-
-                } else if($circuitos[$opcao_circuito]==$lemans) {
-
-                    echo $carros[$opcao_pilotar]->ligarCarro();
-                    sleep(2);
-
-                    echo "\nSeu fórmula de ano " . $carros[$opcao_pilotar]->getAnoEpoca() . " fez um tempo extremamente rápido, mas escapoup por pouco da morte inúmeras vezes!\n\n";
-                    sleep(2);
-
-                }
-
-            } else if($carros[$opcao_pilotar] instanceof Nascar) {
-
-                if($carros[$opcao_pilotar]->getSetup()=="Oval") {
-
-                    if($circuitos[$opcao_circuito]==$interlagos) {
-
-                        echo $carros[$opcao_pilotar]->ligarCarro();
-                        sleep(2);
-    
-                        echo "\nSeu Nascar de setup " . $carros[$opcao_pilotar]->getSetup() . " fez um tempo extremamente lento, já que ele não é acostumado a virar para a direita!\n\n";
-                        sleep(2);
-    
-                    } else if($circuitos[$opcao_circuito]==$daytona) {
-    
-                        echo $carros[$opcao_pilotar]->ligarCarro();
-                        sleep(2);
-    
-                        echo "\nSeu Nascar de setup " . $carros[$opcao_pilotar]->getSetup() . " teve uma velocidade média altíssima!\n\n";
-                        sleep(2);
-    
-                    } else if($circuitos[$opcao_circuito]==$lemans) {
-    
-                        echo $carros[$opcao_pilotar]->ligarCarro();
-                        sleep(2);
-    
-                        echo "\nSeu Nascar de setup " . $carros[$opcao_pilotar]->getSetup() . " fez um tempo extremamente lento, já que ele não é acostumado a virar para a direita!\n\n";
-                        sleep(2);
-    
-                    }
-
-                } else {
-
-                    if($circuitos[$opcao_circuito]==$interlagos) {
-
-                        echo $carros[$opcao_pilotar]->ligarCarro();
-                        sleep(2);
-    
-                        echo "\nSeu Nascar de setup " . $carros[$opcao_pilotar]->getSetup() . " fez um tempo extremamente decente!\n\n";
-                        sleep(2);
-    
-                    } else if($circuitos[$opcao_circuito]==$daytona) {
-    
-                        echo $carros[$opcao_pilotar]->ligarCarro();
-                        sleep(2);
-    
-                        echo "\nSeu Nascar de setup " . $carros[$opcao_pilotar]->getSetup() . " teve uma velocidade média muito baixa!\n\n";
-                        sleep(2);
-    
-                    } else if($circuitos[$opcao_circuito]==$lemans) {
-    
-                        echo $carros[$opcao_pilotar]->ligarCarro();
-                        sleep(2);
-    
-                        echo "\nSeu Nascar de setup " . $carros[$opcao_pilotar]->getSetup() . " fez um tempo extremamente decente!\n\n";
-                        sleep(2);
-    
-                    }
-
-                }
-
-            } else if($carros[$opcao_pilotar] instanceof Hypercar) {
-
-                if($carros[$opcao_pilotar]->getBop()=="Ruim") {
-
-                    if($circuitos[$opcao_circuito]==$interlagos) {
-
-                        echo $carros[$opcao_pilotar]->ligarCarro();
-                        sleep(2);
-    
-                        echo "\nSeu Hypercar de BoP " . $carros[$opcao_pilotar]->getBop() . " fez um tempo bem medíocre para os seus padrões!\n\n";
-                        sleep(2);
-    
-                    } else if($circuitos[$opcao_circuito]==$daytona) {
-    
-                        echo $carros[$opcao_pilotar]->ligarCarro();
-                        sleep(2);
-    
-                        echo "\nQue combinação é essa, cara?\n\n";
-                        sleep(2);
-    
-                    } else if($circuitos[$opcao_circuito]==$lemans) {
-    
-                        echo $carros[$opcao_pilotar]->ligarCarro();
-                        sleep(2);
-    
-                        echo "\nSeu Hypercar de BoP " . $carros[$opcao_pilotar]->getBop() . " fez um tempo bem medíocre para os seus padrões, mas se sentiu mais seguro do que pilotando um fórmula!\n\n";
-                        sleep(2);
-    
-                    }
-
-                } else {
-
-                    if($circuitos[$opcao_circuito]==$interlagos) {
-
-                        echo $carros[$opcao_pilotar]->ligarCarro();
-                        sleep(2);
-    
-                        echo "\nSeu Hypercar de BoP " . $carros[$opcao_pilotar]->getBop() . " fez um tempo excelente para os seus padrões!\n\n";
-                        sleep(2);
-    
-                    } else if($circuitos[$opcao_circuito]==$daytona) {
-    
-                        echo $carros[$opcao_pilotar]->ligarCarro();
-                        sleep(2);
-    
-                        echo "\nQue combinação é essa, cara?\n\n";
-                        sleep(2);
-    
-                    } else if($circuitos[$opcao_circuito]==$lemans) {
-    
-                        echo $carros[$opcao_pilotar]->ligarCarro();
-                        sleep(2);
-    
-                        echo "\nSeu Hypercar de BoP " . $carros[$opcao_pilotar]->getBop() . " fez um tempo extremamente excelente para os seus padrões!\n\n";
-                        sleep(2);
-    
-                    }
-
-                }
-
-            } else {
-
-                echo $carros[$opcao_pilotar]->ligarCarro();
-                sleep(2);
-
-                echo "\nCircuito em segurança!\n\n";
-                sleep(2);
-
-            }
+            echo $carros[$opcao_pilotar]->pilotarCarro($circuitos, $opcao_circuito);
+            sleep(2);
             break;
 
         case 5:
