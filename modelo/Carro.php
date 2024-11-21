@@ -1,20 +1,13 @@
 <?php
 
 require_once("Equipe.php");
-require_once("IUsarCarro.php");
 
-class CarroCorrida implements IUsarCarro {
+class Carro {
 
     protected string $modelo;
     protected string $fabricante;
     protected Equipe $equipe;
     protected string $motor;
-
-    public function ligarCarro() {
-
-        return "O motor " . $this->motor . " acordou! Simbora!";
-
-    }
 
     /**
      * Get the value of fabricante
